@@ -1,0 +1,268 @@
+Index: src/Parqueadero/Parqueadero.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Parqueadero/Parqueadero.java b/src/Parqueadero/Parqueadero.java
+new file mode 100644
+--- /dev/null	(revision d1a8e1211012a0762bd2d6ed7a706023bb1b99b6)
++++ b/src/Parqueadero/Parqueadero.java	(revision d1a8e1211012a0762bd2d6ed7a706023bb1b99b6)
+@@ -0,0 +1,61 @@
++package Parqueadero;
++
++import java.util.Scanner;
++
++public class Parqueadero {
++    public static void main(String[] args) {
++        Scanner sc = new Scanner(System.in);
++
++        final int TARIFA_AUTO = 15000;
++        final int TARIFA_MOTO = 13000;
++        final int TARIFA_BICI = 11000;
++
++        System.out.print("Tipo de vehículo (auto, moto, bicicleta): ");
++        String tipo = sc.nextLine().trim().toLowerCase();
++
++        System.out.print("Hora de llegada (0 a 23): ");
++        int hora = Integer.parseInt(sc.nextLine().trim());
++
++        // Validación  de hora (si está mal, salgo).
++        if (hora < 0 || hora > 23) {
++            System.out.println("Hora inválida. Debe estar entre 0 y 23.");
++            sc.close();
++            return;
++        }
++
++        double total = 0;
++        switch (tipo) {
++            case "auto":
++                total = TARIFA_AUTO;
++                break;
++            case "moto":
++                total = TARIFA_MOTO;
++                break;
++            case "bicicleta":
++                total = TARIFA_BICI;
++                break;
++            default:
++                System.out.println("Tipo de vehículo no válido.");
++                sc.close();
++                return; // salgo porque no puedo calcular algo que no se conoce.
++        }
++
++        // Si el cliente llegó a las 20:00 o más tarde, aplico 20% de recargo.
++        boolean aplicaRecargo = hora >= 20;
++        double recargo = 0;
++        if (aplicaRecargo) {
++            recargo = total * 0.20;
++            total += recargo;
++        }
++
++        // Muestro el recibo final.
++        System.out.println(" RECIBO PARQUEADERO ");
++        System.out.println("Vehículo: " + tipo);
++        System.out.println("Hora de llegada: " + hora + ":00");
++        System.out.printf("Costo base: $%,.2f%n", (aplicaRecargo ? (total - recargo) : total));
++        System.out.printf("Recargo nocturno: $%,.2f%n", recargo);
++        System.out.printf("TOTAL a pagar: $%,.2f%n", total);
++
++        sc.close();
++    }
++}
+Index: src/Supermercado/FacturacionSupermercado.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Supermercado/FacturacionSupermercado.java b/src/Supermercado/FacturacionSupermercado.java
+new file mode 100644
+--- /dev/null	(revision d1a8e1211012a0762bd2d6ed7a706023bb1b99b6)
++++ b/src/Supermercado/FacturacionSupermercado.java	(revision d1a8e1211012a0762bd2d6ed7a706023bb1b99b6)
+@@ -0,0 +1,44 @@
++package Supermercado;
++import java.util.Scanner;
++
++public class FacturacionSupermercado {
++    public static void main(String[] args) {
++        Scanner sc = new Scanner(System.in);
++
++        System.out.print("Ingresa el total de la compra (ej: 150000.50): ");
++        double totalCompra = Double.parseDouble(sc.nextLine().trim());
++
++        System.out.print("¿Cuántos productos compraste?: ");
++        int cantidadProductos = Integer.parseInt(sc.nextLine().trim());
++
++        System.out.print("¿Tienes membresía? (s/n): ");
++        String respuestaMembresia = sc.nextLine().trim();
++        boolean tieneMembresia = respuestaMembresia.equalsIgnoreCase("s");
++
++        double totalFinal = totalCompra; // esto guarda el total que se va actualizando
++        double descuentoAcumulado = 0.0; // esto me sirve para mostrar cuánto se descontó en total
++
++        //  Si tiene membresía, aplico 10%.
++        if (tieneMembresia) {
++            double d = totalFinal * 0.10;
++            totalFinal -= d;
++            descuentoAcumulado += d; // acumulo el descuento aplicado
++        }
++
++        //  Si compró más de 10 productos, aplico 5% extra (sobre el total actual).
++        if (cantidadProductos > 10) {
++            double d = totalFinal * 0.05;
++            totalFinal -= d;
++            descuentoAcumulado += d;
++        }
++
++        System.out.println(" RESUMEN COMPRA ");
++        System.out.printf("Total antes de descuentos: $%,.2f%n", totalCompra);
++        System.out.println("Tiene membresía: " + (tieneMembresia ? "Sí (10%)" : "No"));
++        System.out.println("Cantidad de productos: " + cantidadProductos + (cantidadProductos > 10 ? "  (5% extra)" : ""));
++        System.out.printf("Descuento total aplicado: $%,.2f%n", descuentoAcumulado);
++        System.out.printf("Total a pagar: $%,.2f%n", totalFinal);
++
++        sc.close();
++    }
++}
+Index: src/TiendaRopa/TiendaRopa.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/TiendaRopa/TiendaRopa.java b/src/TiendaRopa/TiendaRopa.java
+new file mode 100644
+--- /dev/null	(revision d1a8e1211012a0762bd2d6ed7a706023bb1b99b6)
++++ b/src/TiendaRopa/TiendaRopa.java	(revision d1a8e1211012a0762bd2d6ed7a706023bb1b99b6)
+@@ -0,0 +1,58 @@
++package TiendaRopa;
++
++import java.util.Scanner;
++
++public class TiendaRopa {
++    public static void main(String[] args) {
++        Scanner sc = new Scanner(System.in);
++
++        final int PRECIO_CAMISA = 40000;
++        final int PRECIO_PANTALON = 80000;
++        final int PRECIO_CHAQUETA = 120000;
++
++        System.out.print("Tipo de prenda (camisa, pantalon, chaqueta): ");
++        String prenda = sc.nextLine().trim().toLowerCase();
++        // trim() → quita espacios antes/después
++        // toLowerCase() → convierte a minúsculas para comparar más fácil.
++
++        System.out.print("Cantidad de prendas: ");
++        int cantidad = Integer.parseInt(sc.nextLine().trim());
++
++        int precioUnitario;
++        switch (prenda) {
++            case "camisa":
++                precioUnitario = PRECIO_CAMISA;
++                break;
++            case "pantalon":
++                precioUnitario = PRECIO_PANTALON;
++                break;
++            case "chaqueta":
++                precioUnitario = PRECIO_CHAQUETA;
++                break;
++            default:
++                System.out.println("Tipo de prenda no válido.");
++                sc.close();
++                return;
++        }
++
++        double subtotal = precioUnitario * (double) cantidad;
++
++        double descuento = 0.0;
++        if (cantidad > 5) {
++            // Si compra más de 5 unidades, 15% de descuento.
++            descuento = subtotal * 0.15;
++        }
++
++        double total = subtotal - descuento;
++
++        System.out.println("RESUMEN COMPRA ROPA");
++        System.out.println("Prenda: " + prenda);
++        System.out.println("Cantidad: " + cantidad);
++        System.out.printf("Precio unitario: $%,.2f%n", (double) precioUnitario);
++        System.out.printf("Subtotal: $%,.2f%n", subtotal);
++        System.out.printf("Descuento: $%,.2f%n", descuento);
++        System.out.printf("TOTAL a pagar: $%,.2f%n", total);
++
++        sc.close();
++    }
++}
+Index: src/Veterinaria/ClasificacionVeterinaria.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Veterinaria/ClasificacionVeterinaria.java b/src/Veterinaria/ClasificacionVeterinaria.java
+new file mode 100644
+--- /dev/null	(revision d1a8e1211012a0762bd2d6ed7a706023bb1b99b6)
++++ b/src/Veterinaria/ClasificacionVeterinaria.java	(revision d1a8e1211012a0762bd2d6ed7a706023bb1b99b6)
+@@ -0,0 +1,49 @@
++package Veterinaria;
++
++import java.util.Scanner;
++
++public class ClasificacionVeterinaria {
++    public static void main(String[] args) {
++        Scanner sc = new Scanner(System.in);
++
++        // Pido el tipo de animal para decidir el veterinario especializado.
++        System.out.print("Tipo de animal (perro, gato, ave, otro): ");
++        String tipo = sc.nextLine().trim().toLowerCase();
++
++        //  Pido la edad para saber si requiere vacunación adicional (solo perros y gatos > 5 años).
++        System.out.print("Edad del animal (en años, puede ser decimal): ");
++        double edad = Double.parseDouble(sc.nextLine().trim());
++
++        // Defino el veterinario según el tipo. Esto me sirve para asignar la especialidad.
++        String veterinarioAsignado;
++        switch (tipo) {
++            case "perro":
++                veterinarioAsignado = "Dr. Canino";
++                break;
++            case "gato":
++                veterinarioAsignado = "Dra. Felina";
++                break;
++            case "ave":
++                veterinarioAsignado = "Dr. Aves";
++                break;
++            default:
++                veterinarioAsignado = "Dra. General";
++        }
++
++        // Regla de vacunación: perros o gatos con más de 5 años.
++        boolean recomendarVacuna = (tipo.equals("perro") || tipo.equals("gato")) && (edad > 5);
++
++        // Muestro la asignación y la recomendación.
++        System.out.println(" ASIGNACIÓN VETERINARIA ");
++        System.out.println("Tipo de animal: " + tipo);
++        System.out.println("Edad: " + edad + " años");
++        System.out.println("Veterinario asignado: " + veterinarioAsignado);
++        if (recomendarVacuna) {
++            System.out.println("Recomendación: Vacunación adicional por edad (>5 años).");
++        } else {
++            System.out.println("Recomendación: No requiere vacunación adicional por edad.");
++        }
++
++        sc.close();
++    }
++}
+Index: src/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Main.java b/src/Main.java
+new file mode 100644
+--- /dev/null	(revision d1a8e1211012a0762bd2d6ed7a706023bb1b99b6)
++++ b/src/Main.java	(revision d1a8e1211012a0762bd2d6ed7a706023bb1b99b6)
+@@ -0,0 +1,6 @@
++import java.util.Scanner;
++public class Main {
++    public static void main(String[] args) {
++        System.out.println("Hola, Juan! Mi primer programa en Java");
++    }
++}
